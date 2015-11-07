@@ -78,7 +78,7 @@ public class Fragmento1 extends Fragment {
 
     private TextView msg;
     private Context context;
-    //private MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer;
     private String velocidad;
 
     private Polygon polygono;
@@ -110,7 +110,7 @@ public class Fragmento1 extends Fragment {
         mMap = mapView.getMap();
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-
+        mediaPlayer = MediaPlayer.create(getActivity(), R.raw.industrial_alarm);
         mMap.setMyLocationEnabled(true);
         setUpMap();
 
@@ -172,7 +172,7 @@ public class Fragmento1 extends Fragment {
                     for (int i = 0; i < ArraypolygonOptions.length; i++) {
 
                         if (PolyUtil.containsLocation(latLng, ArraypolygonOptions[i].getPoints(), true) && bandera) {
-                            //mediaPlayer.start();
+                            mediaPlayer.start();
                             Log.i("myTag", "entroal if");
                             bandera = false;
                             ArrayPolygonos[i].setStrokeColor(Color.RED);
@@ -235,18 +235,39 @@ public class Fragmento1 extends Fragment {
 
         super.onResume();
         mapView.onResume();
+        Log.i("myTag", "onResume()");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
+        Log.i("myTag", "onDestroy()");
     }
 
     @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mapView.onLowMemory();
+    public void onPause() {
+        super.onPause();
+        //mediaPlayer.onPause();
+        mediaPlayer.stop();
+        Log.i("myTag", "onPause()");
+        /*if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer = null;
+        }*/
+        /*if (mGoogleApiClient.isConnected()) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+            mGoogleApiClient.disconnect();
+        }*/
+
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mediaPlayer.stop();
+        Log.i("myTag", "onStop()");
+    }
+
 
 }
