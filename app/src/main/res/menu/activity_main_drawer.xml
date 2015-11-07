@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <item android:title="NAVEGACION">
+        <menu>
+            <item
+                android:id="@+id/nav_camera"
+                android:icon="@drawable/mundo"
+                android:title="Navegar"
+                />
+        </menu>
+    </item>
+
+    <item android:title="CAMARAS">
+        <menu>
+            <item
+                android:id="@+id/nav_loc_cam"
+                android:icon="@drawable/icono"
+                android:title="Localización De Camaras" />
+        </menu>
+    </item>
+
+    <item android:title="INFORMACION">
+        <menu>
+            <item
+                android:id="@+id/nav_info"
+                android:icon="@drawable/info"
+                android:title="Info. Sobre Las Camaras" />
+        </menu>
+    </item>
+
+</menu>
