@@ -16,7 +16,7 @@
         <menu>
             <item
                 android:id="@+id/nav_loc_cam"
-                android:icon="@drawable/icono"
+                android:icon="@drawable/security_camera"
                 android:title="Localización De Camaras" />
         </menu>
     </item>

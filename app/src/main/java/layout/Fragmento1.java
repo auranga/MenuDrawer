@@ -1,6 +1,7 @@
 package layout;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -60,7 +61,10 @@ import com.google.maps.android.SphericalUtil;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 
+import com.google.android.gms.maps.model.Marker;
+
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.maps.android.clustering.ClusterManager;
 
 import android.content.Intent;
 
@@ -87,6 +91,10 @@ public class Fragmento1 extends Fragment {
 
     private boolean bandera = true;
 
+    private ProgressDialog pd = null;
+
+    private Marker mPositionMarker;
+
     public Fragmento1() {
         // Required empty public constructor
     }
@@ -111,7 +119,19 @@ public class Fragmento1 extends Fragment {
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mediaPlayer = MediaPlayer.create(getActivity(), R.raw.industrial_alarm);
-        mMap.setMyLocationEnabled(true);
+        //mMap.setMyLocationEnabled(true);
+        mPositionMarker = mMap.addMarker(new MarkerOptions()
+                .icon(BitmapDescriptorFactory
+                        .fromResource(R.drawable.my_position))
+                .anchor(0.5f, 0.5f)
+                .position(new LatLng(25.432999, -100.928671)));
+
+        mMap.getUiSettings().setMapToolbarEnabled(false);
+
+        pd = ProgressDialog.show(getActivity(),"Localización","Buscando Tu Ubicación GPS...");
+        //pd.setIndeterminateDrawable(getResources().getDrawable(R.drawable.info));
+        pd.setIcon(R.drawable.info_pd);
+
         setUpMap();
 
         //return inflater.inflate(R.layout.fragmento1, container, false);
@@ -159,6 +179,15 @@ public class Fragmento1 extends Fragment {
 
                     LatLng latLng = new LatLng(currentLatitude, currentLongitude);
 
+
+
+                    mPositionMarker.setPosition(latLng);
+
+
+                    pd.dismiss();
+
+
+
                     /*CameraPosition cameraPosition = CameraPosition.builder()
                 .target(mapCenter)
                 .zoom(13)
@@ -204,11 +233,12 @@ public class Fragmento1 extends Fragment {
 
             };
 
+
+
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, ll);
         }//cierre if permiso
 
     }//set up map
-
 
     private PolygonOptions CrearPoligono(LatLng centro) {
 
@@ -217,7 +247,7 @@ public class Fragmento1 extends Fragment {
         int degreeStep = 360 / steps;
 
         mMap.addMarker(new MarkerOptions().position(centro).icon(
-                BitmapDescriptorFactory.fromResource(R.drawable.icono)).anchor(0.5f, 0.5f));
+                BitmapDescriptorFactory.fromResource(R.drawable.security_camera)).anchor(0.5f, 0.5f));
 
         PolygonOptions poly = new PolygonOptions();
 
